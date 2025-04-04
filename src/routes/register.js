@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { tgBot } from '../app.js';
+import { createMessageForTelegram } from '../utils/index.js';
 
 const router = Router();
 
@@ -11,7 +13,9 @@ router.post('/', (req, res) => {
       .json({ error: 'All fields are required: course, name, phone, date' });
   }
 
-  console.log(course, name, phone);
+  const message = createMessageForTelegram(name, phone, course);
+  console.log(message);
+  tgBot.sendToAll(message);
 
   return res.status(201).json({ status: 'success' });
 });

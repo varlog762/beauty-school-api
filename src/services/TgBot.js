@@ -1,30 +1,39 @@
 import TelegramBot from 'node-telegram-bot-api';
 
 class TgBot {
-  chatsList = new Set();
-
-  constructor(token) {
-    this.bot = new TelegramBot(token, { polling: true });
-    this.token = token;
+  constructor(telegramToken) {
+    this.bot = new TelegramBot(telegramToken, { polling: true });
+    this.chatList = new Set();
+    console.log('Telegram-bot created successfully!');
   }
 
   startListenMessages() {
     this.bot.on('message', msg => {
       const chatId = msg.chat?.id;
-      this.chatsList.add(chatId);
+      this.chatList.add(chatId);
 
       const message = msg.text;
 
-      console.log(message);
+      console.log(this.chatList, message);
     });
   }
 
-  sendToAll(message) {
-    this.chatsList.forEach(chatId => this.bot.sendMessage(chatId, message));
+  async sendToAll(message) {
+    try {
+      this.chatList.forEach(
+        async chatId => await this.bot.sendMessage(chatId, message)
+      );
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
-  sendMessage(chatId, message) {
-    this.bot.sendMessage(chatId, message);
+  async sendMessage(chatId, message) {
+    await this.bot.sendMessage(chatId, message);
+  }
+
+  showAllChats() {
+    console.log(this.chatList);
   }
 }
 
