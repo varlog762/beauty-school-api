@@ -10,11 +10,10 @@ router.post('/', (req, res) => {
   if (!name || !course || !phone) {
     return res
       .status(400)
-      .json({ error: 'All fields are required: course, name, phone, date' });
+      .json({ error: 'All fields are required: course, name, phone' });
   }
 
   const message = createMessageForTelegram(name, phone, course);
-  console.log(message);
   tgBot.sendToAll(message);
 
   return res.status(201).json({ status: 'success' });
