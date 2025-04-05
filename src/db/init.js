@@ -1,4 +1,4 @@
-import db from './db.js';
+import db from './database.js';
 
 // Таблица для хранения chatId
 db.prepare(
@@ -24,5 +24,5 @@ db.prepare(
 `
 ).run();
 
-console.log('Таблицы успешно инициализированы');
+console.log('The tables have been successfully initialized!');
 db.close();
