@@ -17,8 +17,7 @@ router.post('/', (req, res) => {
     const message = createMessageForTelegram(name, phone, course);
     tgBot.sendToAll(message);
   } catch (error) {
-    console.error(error.message);
-    console.dir(req);
+    console.error(error?.message);
     return res.status(400).json({ error: '...' });
   }
 
