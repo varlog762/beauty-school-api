@@ -14,7 +14,7 @@ db.prepare(
 // Таблица для хранения заявок
 db.prepare(
   `
-  CREATE TABLE IF NOT EXISTS applications (
+  CREATE TABLE IF NOT EXISTS requests (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     phone TEXT NOT NULL,
