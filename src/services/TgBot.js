@@ -1,5 +1,5 @@
 import TelegramBot from 'node-telegram-bot-api';
-import db from '../db/database.js';
+import { getAllChatIdsFromDB, addChatIdToDB } from '../models/chat.js';
 
 class TgBot {
   constructor(telegramToken, telegramSecret) {
@@ -11,7 +11,7 @@ class TgBot {
   }
 
   loadChatIdsFromDB() {
-    const rows = db.prepare('SELECT chat_id FROM chats').all();
+    const rows = getAllChatIdsFromDB();
     rows.forEach(row => this.chatList.add(row.chat_id));
     console.log('Loaded chat IDs from DB:');
     this.showAllChats();
@@ -32,9 +32,7 @@ class TgBot {
         message === this.secret
       ) {
         try {
-          db.prepare('INSERT INTO chats (chat_id) VALUES (?)').run(
-            String(chatId)
-          );
+          addChatIdToDB(chatId);
           this.chatList.add(chatId);
           this.bot.sendMessage(
             chatId,
