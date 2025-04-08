@@ -5,16 +5,17 @@ class TgBot {
   constructor(telegramToken, telegramSecret) {
     this.bot = new TelegramBot(telegramToken, { polling: true });
     this.secret = telegramSecret;
-    this.chatList = new Set();
-    this.loadChatIdsFromDB();
+    this.chatList = this.loadChatIdsFromDB();
     console.log('Telegram-bot created successfully!');
   }
 
   loadChatIdsFromDB() {
     const rows = getAllChatIdsFromDB();
-    rows.forEach(row => this.chatList.add(row.chat_id));
-    console.log('Loaded chat IDs from DB:');
-    this.showAllChats();
+    console.log(
+      rows.length ? 'Chat IDs loaded from DB!' : 'Chats DB is empty!'
+    );
+
+    return rows ? new Set(rows.map(item => item.chat_id)) : new Set();
   }
 
   startListenMessages() {
@@ -57,12 +58,16 @@ class TgBot {
         async chatId => await this.bot.sendMessage(chatId, message)
       );
     } catch (error) {
-      console.error(error?.message ?? error);
+      console.error(error?.message);
     }
   }
 
   async sendMessage(chatId, message) {
-    await this.bot.sendMessage(chatId, message);
+    try {
+      await this.bot.sendMessage(chatId, message);
+    } catch (error) {
+      console.error(`Failed to send message to Telegram: ${error.message}`);
+    }
   }
 
   showAllChats() {

@@ -6,6 +6,6 @@ export const saveClientRequestToDB = (name, phone, course) => {
       'INSERT INTO requests (name, phone, course) VALUES (?, ?, ?)'
     ).run(name, phone, course);
   } catch (error) {
-    console.error('Ошибка при сохранении заявки:', error.message);
+    console.error('Failed to save user request to DB:', error.message);
   }
 };
