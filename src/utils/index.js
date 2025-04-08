@@ -1,4 +1,5 @@
 import validator from 'validator';
+import { courses } from '../constants/courses.js';
 
 export const createMessageForTelegram = (name, phone, course) => {
   const currentDate = new Date().toLocaleString('ru-RU');
@@ -9,7 +10,7 @@ export const createMessageForTelegram = (name, phone, course) => {
 
   📞 Телефон:  ${phone},
 
-  🎓 Курс:  ${course},
+  🎓 Курс:  ${courses[course]},
   
   📅 Дата: ${currentDate}
   `;
@@ -25,7 +26,7 @@ export const isDataInvalid = (name, phone, course) => {
   const isNameInvalid = !name || typeof name !== 'string' || name.length > 50;
   const isPhoneInvalid =
     !phone || !validator.isMobilePhone(normalizedPhone, 'any');
-  const isCourseInvalid = !course || typeof course !== 'string';
+  const isCourseInvalid = !course || !(course in courses);
 
   return isNameInvalid || isPhoneInvalid || isCourseInvalid;
 };
