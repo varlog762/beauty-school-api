@@ -22,7 +22,7 @@ jobs:
           context: .
           push: true
           tags: |
-            gashek762/medium-clone-api:latest
+            gashek762/beauty-school-api:latest
 
       - name: Deploy to Server
         uses: appleboy/ssh-action@v1.2.0
@@ -31,7 +31,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd ~/Data/docker-compose-files/medium-clone-api
-            docker pull gashek762/medium-clone-api:latest
+            cd ~/Data/docker-compose-files/koshka/koshka-school/koshka-school-api
+            docker pull gashek762/beauty-school-api:latest
             docker compose down            
             docker compose up -d
