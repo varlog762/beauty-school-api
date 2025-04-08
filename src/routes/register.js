@@ -6,6 +6,10 @@ import { saveClientRequestToDB } from '../models/requests.js';
 const router = Router();
 
 router.post('/', async (req, res) => {
+  if (req.headers['content-type'] !== 'application/json') {
+    return res.status(415).json({ error: 'Unsupported Content-Type' });
+  }
+
   try {
     const name = String(req.body?.name).trim();
     const phone = String(req.body?.phone).trim();
