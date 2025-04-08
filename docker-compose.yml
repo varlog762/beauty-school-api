@@ -3,6 +3,8 @@ services:
     image: gashek762/beauty-school-api:latest
     container_name: beauty-school-api
     restart: unless-stopped
+    env_file:
+      - .env
     command: npm run start
     ports:
       - "3002:3000"
