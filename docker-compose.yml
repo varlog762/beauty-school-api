@@ -1,0 +1,13 @@
+services:
+  api:
+    image: gashek762/beauty-school-api:latest
+    container_name: beauty-school-api
+    restart: unless-stopped
+    command: npm run start
+    ports:
+      - "3002:3000"
+    volumes:
+      - beauty-school-api-db:/usr/src/app/data
+
+volumes:
+  beauty-school-api-db:
